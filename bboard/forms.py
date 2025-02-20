@@ -2,7 +2,7 @@ from dataclasses import fields
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.forms import ModelForm, modelform_factory, DecimalField
+from django.forms import ModelForm, modelform_factory, DecimalField, modelformset_factory, BaseModelFormSet
 from django.forms.widgets import Select
 
 from bboard.models import Bb, Rubric
@@ -77,3 +77,20 @@ class BbForm(ModelForm):
         class Meta:
             model = User
             fields = ('username', 'email', 'password1', 'password2', 'first_name', 'last_name')
+
+
+
+
+
+class RubricBaseFormSet(BaseModelFormSet):
+    def clean(self):
+        super().clean()
+        names = [form.cleaned_data['name'] for form in self.forms
+                 if 'name' in form.cleaned_data]
+
+        if ('Недвижимость' not in names) or ('Транспорт' not in names) or ('Мебель' not in names):
+            raise ValidationError(
+                'Добавьте рубрику Недвижимость, Транспорт, Мебель'
+            )
+
+

@@ -31,6 +31,11 @@ class Rubric(models.Model):
         verbose_name='Название',
     )
 
+    order = models.SmallIntegerField(
+        default=0,
+        db_index=True,
+        verbose_name = 'Порядок')
+
     def __str__(self):
         return f'{self.name}'
 
@@ -48,6 +53,8 @@ class Rubric(models.Model):
     class Meta:
         verbose_name = 'Рубрика'
         verbose_name_plural = 'Рубрики'
+        ordering = ['order']
+
 
 
 class Bb(models.Model):
