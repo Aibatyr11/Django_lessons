@@ -1,10 +1,15 @@
 from lib2to3.fixes.fix_input import context
 
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
+from django.contrib.auth.middleware import get_user
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
+from django.contrib.auth.models import User
+from django.contrib.auth.views import redirect_to_login
 from django.core.paginator import Paginator
 from django.db.models import Count
 from django.forms import modelformset_factory, inlineformset_factory
 from django.http import (HttpResponse, HttpResponseRedirect, HttpResponseNotFound,
-                         Http404, StreamingHttpResponse, FileResponse, JsonResponse)
+                         Http404, StreamingHttpResponse, FileResponse, JsonResponse, HttpResponseForbidden)
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.template import loader
 from django.template.loader import render_to_string
@@ -20,6 +25,8 @@ from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteVi
 
 from bboard.forms import BbForm, RubricBaseFormSet
 from bboard.models import Bb, Rubric
+
+from django.contrib.auth import authenticate, login, logout
 
 from django.forms import formset_factory
 
@@ -38,6 +45,48 @@ def index(request):
     bbs = Bb.objects.order_by('-published')
     rubrics = Rubric.objects.annotate(cnt=Count('bb')).filter(cnt__gt=0)
 
+    # user = User.objects.get(pk=request.user.pk)
+    #
+    current_user = get_user(request)
+
+    if current_user.is_authenticated:
+        pass
+    else:
+        return redirect_to_login(reverse('bboard:rubrics'))
+    #
+    #
+    # if request.user.is_authenticated:
+    #     pass
+    #
+    # else:
+    #     return redirect('login')
+
+    # if request.user.has_perm('bboard.add_rubric'):#есть ли права
+    #     pass
+
+    # if request.user.has_perms('bboard.add_rubric',
+    #                           'bboard.change_rubric',
+    #                           'bboard.delete_rubric'):#есть ли права мн.число
+    #     pass
+    # else:
+    #     return HttpResponseForbidden('Вы не имеете доступ')
+
+    # if request.user.has_module_perms('bboard')
+    #     pass
+
+    # request.user.get_user_permissions()#есть ли права
+    #
+    # request.user.get_group_permissions()#есть ли права
+    #
+    # request.user.get_all_permissions()  # есть ли права  all
+
+    # request.user.get_username()
+    # request.user.get_full_name()
+    # request.user.get_short_name()
+    #
+    # users = User.objects.with_perm('bboard.add_user')
+    # users = User.objects.with_perm('bboard.add_user', include_superusers=False)
+
     paginator = Paginator(bbs, 2)
 
     if 'page' in request.GET:
@@ -48,6 +97,7 @@ def index(request):
     page = paginator.get_page(page_num)
 
     context = {'bbs': page.object_list, 'rubrics': rubrics, 'page': page}
+
 
     return render(request, 'bboard/index.html', context)
 
@@ -122,11 +172,18 @@ class BbRubricBbsView(ListView):
 
 
 # Основной (вернуть)
-class BbCreateView(CreateView):
+class BbCreateView(LoginRequiredMixin, UserPassesTestMixin,CreateView, PermissionRequiredMixin):
     template_name = 'bboard/bb_create.html'
     model = Bb
     form_class = BbForm
     success_url = reverse_lazy('bboard:index')
+
+    permission_required('bboard.add_bb', 'bboard.change_bb',
+                        'bboard.delete_bb')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -221,6 +278,7 @@ class BbDetailView(DetailView):
 class BbDeleteView(DeleteView):
     model = Bb
     success_url = '/{rubric_id}/'
+    login_url = '/login/'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -231,7 +289,16 @@ class BbDeleteView(DeleteView):
 
 
 
+# @login_required
+# @login_required(login_url="/login/")
+# @user_passes_test(lambda user: user.is_staff)
 
+# @permission_required('bboard.view_rubric')
+
+# @permission_required('bboard.view_rubric',)
+@permission_required('bboard.add_rubric',
+                     'bboard.change_rubric',
+                     'bboard.delete_rubric')
 def rubrics(request):
     # RubricFormSet = modelformset_factory(Rubric, fields=('name',))
     RubricFormSet = modelformset_factory(Rubric, fields=('name',),
