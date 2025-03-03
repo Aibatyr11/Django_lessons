@@ -4,10 +4,17 @@
 
 {% block content %}
     <h2>Вход</h2>
+{#        {% if user.is_anonymous %}#}
+    
+    {#    {% if 'bboard.add_bb' in perms %}#}
+    
+{#         {% if perms.bboard%}#}
+    
+    
         {% if user.is_authenticated %}
-            <p>Вход выполнен</p>
+            <p>Вход выполнен! {{ user.username }}</p>
             
-        {%else %}
+        {% else %}
             <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
