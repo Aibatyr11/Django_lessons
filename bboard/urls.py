@@ -6,7 +6,7 @@ from bboard.models import Bb
 from bboard.views import (index, by_rubric, BbCreateView,
                           add_and_save, bb_detail, BbRubricBbsView,
                           BbDetailView, BbEditView, BbDeleteView, BbIndexView,
-                          BbRedirectView, edit, rubrics)
+                          BbRedirectView, edit, rubrics, MyFormHw)
 
 app_name = 'bboard'
 
@@ -28,6 +28,8 @@ urlpatterns = [
     path('edit/<int:pk>/', edit, name='edit'),
 
     path('rubric/', rubrics, name='rubrics'),
+
+    path('MyFormHw/', MyFormHw, name='MyFormHw'),
 
 
 
