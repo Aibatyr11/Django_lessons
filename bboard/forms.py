@@ -1,3 +1,4 @@
+from cProfile import label
 from dataclasses import fields
 from django import forms
 from django.contrib.auth.models import User
@@ -94,3 +95,11 @@ class RubricBaseFormSet(BaseModelFormSet):
             )
 
 
+
+
+#hw
+
+class MyForm(forms.Form):
+    name = forms.CharField(label="Имя", max_length=100, required=True)
+    email = forms.EmailField(label="Email", required=True)
+    age = forms.IntegerField(label="Возраст", required=True, min_value=1)
