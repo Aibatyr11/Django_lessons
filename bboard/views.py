@@ -23,7 +23,7 @@ from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.base import View, TemplateView
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 
-from bboard.forms import BbForm, RubricBaseFormSet
+from bboard.forms import BbForm, RubricBaseFormSet, MyForm
 from bboard.models import Bb, Rubric
 
 from django.contrib.auth import authenticate, login, logout
@@ -344,3 +344,20 @@ def bbs(request, rubric_id):
 
     context = {'formset': formset}
     return render(request, 'bboard/bbs.html', context)
+
+
+
+def MyFormHw(request):
+    if request.method == 'POST':
+        form = MyForm(request.POST)  # Используем правильное имя формы
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            email = form.cleaned_data["email"]
+            age = form.cleaned_data["age"]
+            return render(request, "bboard/index.html", {"name": name, "email": email, "age": age})
+        else:
+            return render(request, "bboard/form.html", {"form": form, "error": "Ошибка валидации."})
+    else:
+        form = MyForm()  # Создаем пустую форму
+
+    return render(request, "bboard/form.html", {"form": form})
