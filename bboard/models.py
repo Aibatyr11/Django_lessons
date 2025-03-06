@@ -165,3 +165,7 @@ class RevRubric(Rubric):
     class Meta:
         proxy = True # без таблицы
         ordering = ['-name']
+
+
+
+
