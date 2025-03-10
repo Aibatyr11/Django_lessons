@@ -22,6 +22,38 @@ class MinMaxValueValidator:
                   params={'min': self.min_value, 'max': self.max_value})
 
 
+#lesson29
+
+class RubricQuerySet(models.QuerySet):
+    def order_by_bb_count(self):
+        return self.annotate(cnt=models.Count('bb')).order_by('-cnt')
+
+
+class RubricManager(models.Manager):
+    # def get_queryset(self):
+#     #     return super().get_queryset().order_by('order', 'name')
+#     #
+#     # def order_by_bb_count(self):
+#     #     return super().get_queryset().annotate(
+#     #         cnt=models.Count('bb')).order_by('-cnt')
+
+    def get_queryset(self):
+        return RubricQuerySet(self.model, using=self._db)
+
+    def order_by_bb_count(self):
+        return super().get_queryset().order_by_bb_count()
+
+
+
+
+
+
+class BbManager(models.Manager):
+    def get_queryset(self):
+        return self.get_queryset().order_by('price')
+
+
+
 
 class Rubric(models.Model):
     name = models.CharField(
@@ -35,6 +67,18 @@ class Rubric(models.Model):
         default=0,
         db_index=True,
         verbose_name = 'Порядок')
+
+    # objects = RubricManager()
+    # objects = models.Manager()
+    # bbs = RubricManager()
+    #bbs = models.Manager()
+
+    objects = RubricManager()
+    # objects = RubricQuerySet.as_manager()
+
+    # objects = models.Manager.from_queryset(RubricQuerySet)
+
+
 
     def __str__(self):
         return f'{self.name}'
@@ -130,6 +174,10 @@ class Bb(models.Model):
     # url = models.URLField()
     # slug = models.SlugField()
 
+    objects = models.Manager()
+    by_price = BbManager()
+
+
     def title_and_price(self):
         if self.price:
             return f'{self.title} ({self.price:.2f} тг.)'
@@ -165,6 +213,7 @@ class RevRubric(Rubric):
     class Meta:
         proxy = True # без таблицы
         ordering = ['-name']
+
 
 
 

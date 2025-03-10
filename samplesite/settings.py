@@ -89,6 +89,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+
+        # 'ATOMIC_REQUESTS': False, # по умолчанию, каждая операция в отдельонм транзакций
+        #'ATOMIC_REQUESTS': True, # атомарные запросы, все операции в одной транзакций
+        #'AUTOCOMMIT': True, # по умолчанию, автоматическое завершение транзакций commit = отправить
     }
 }
 

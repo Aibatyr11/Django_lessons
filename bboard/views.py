@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, 
 from django.contrib.auth.models import User
 from django.contrib.auth.views import redirect_to_login
 from django.core.paginator import Paginator
+from django.db import transaction, DatabaseError
 from django.db.models import Count
 from django.forms import modelformset_factory, inlineformset_factory
 from django.http import (HttpResponse, HttpResponseRedirect, HttpResponseNotFound,
@@ -29,6 +30,8 @@ from bboard.models import Bb, Rubric
 from django.contrib.auth import authenticate, login, logout
 
 from django.forms import formset_factory
+
+from samplesite.settings import DATABASES
 
 
 # Основной (вернуть)
@@ -361,3 +364,38 @@ def MyFormHw(request):
         form = MyForm()  # Создаем пустую форму
 
     return render(request, "bboard/form.html", {"form": form})
+
+
+#@transaction.non_atomic_requests # по умолчанию, каждая операция в отдельонм транзакций
+@transaction.atomic
+def my_view(request):
+    formset = RubricBaseFormSet(instance=Rubric)
+    if formset.is_valid():
+        with transaction.atomic():
+            for form in formset:
+                if form.cleaned_data:
+                    try:
+                        with transaction.atomic():
+                           pass
+                    except DatabaseError:
+                        pass
+
+    bbs = Bb.objects.select_for_updates().filter(price__lt=100)
+    with transaction.atomic():
+        for bb in bbs:
+            bb.price = 100
+            bb.save()
+
+    bbs = Bb.objects.select_for_updates(skip_licked=True,
+                                        of=('self', 'rubric')).filter(price__lt=100)
+
+    #ручное управление
+    form = BbForm(request.POST)
+    if form.is_valid():
+        try:
+            form.save()
+            transaction.commit()
+        except:
+            transaction.rollback()
+
+    pass
