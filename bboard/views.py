@@ -390,12 +390,13 @@ def my_view(request):
                                         of=('self', 'rubric')).filter(price__lt=100)
 
     #ручное управление
-    form = BbForm(request.POST)
-    if form.is_valid():
-        try:
+    try:
+        form = BbForm(request.POST)
+        if form.is_valid():
             form.save()
+            raise DatabaseError("Искусственная ошибка")
             transaction.commit()
-        except:
-            transaction.rollback()
+    except DatabaseError:
+        transaction.rollback()
 
-    pass
+    return JsonResponse({'status': 'ok'})

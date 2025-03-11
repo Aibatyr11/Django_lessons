@@ -46,10 +46,16 @@ class RubricManager(models.Manager):
 
 
 
-
+class BbQuerySet(models.QuerySet):
+    def expensive(self):
+        return self.filter(price__gte=100)
 
 class BbManager(models.Manager):
     def get_queryset(self):
+        return BbQuerySet(self.model, using=self._db)
+
+
+    def cheapest(self):
         return self.get_queryset().order_by('price')
 
 
