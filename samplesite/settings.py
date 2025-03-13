@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'captcha',
+
     'bboard',  # 'bboard.apps.BboardConfig',
     'testapp',
     # 'todolist',
@@ -148,3 +150,27 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # }
 
 DEFAULT_CHARSET = 'utf-8'
+
+
+#django-simple-captcha
+#CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.random_char_challenge',
+CAPTCHA_CHALLENGE_FUNCT ='captcha.helpers.word_challenge'
+
+CAPTCHA_WORDS_DICTIONARY = BASE_DIR / 'static/words.txt'
+CAPTCHA_DICTIONARY_MIN_LENGTH = 0
+CAPTCHA_DICTIONARY_MAX_LENGTH = 99
+
+
+#CAPTCHA_TIMEOUT = 5
+
+#CAPTCHA_LENGTH = 6
+
+#CAPTCHA_MATH_CHALLENGE_OPERATOR = 'x'
+
+# CAPTCHA_LETTER_ROTATION = (-90, 90)
+
+# CAPTCHA_BACKGROUND_COLOR = '001100'
+#
+# CAPTCHA_FOREGROUND_COLOR = '#ffffff'
+
+# CAPTCHA_IMAGE_SIZE = (400, 400)

@@ -19,6 +19,8 @@ from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView,
     PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.urls import path, include
 
+from bboard import urls
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('todo/', include('todolist.urls', namespace='todo')),
@@ -41,4 +43,8 @@ urlpatterns = [
     path('accounts/reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
 
     path('accounts/reset/done/', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+]
+
+urlpatterns += [
+    path('captcha/', include('captcha.urls')),
 ]

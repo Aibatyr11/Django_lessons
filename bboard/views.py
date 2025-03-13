@@ -24,7 +24,7 @@ from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.base import View, TemplateView
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 
-from bboard.forms import BbForm, RubricBaseFormSet, MyForm
+from bboard.forms import BbForm, RubricBaseFormSet, MyForm, SearchForm
 from bboard.models import Bb, Rubric
 
 from django.contrib.auth import authenticate, login, logout
@@ -400,3 +400,27 @@ def my_view(request):
         transaction.rollback()
 
     return JsonResponse({'status': 'ok'})
+
+
+
+def search(request):
+    context = {}
+
+    if request.method == 'POST':
+        sf = SearchForm(request.POST)
+        if sf.is_valid():
+            keyword = sf.cleaned_data['keyword']
+            rubric_id = sf.cleaned_data['rubric'].pk
+            bbs = Bb.objects.filter(
+                #title__icontains=keyword,
+                title__iregex=keyword,
+                rubric=rubric_id)
+
+            context.update(bbs=bbs)
+
+    else:
+        sf = SearchForm()
+
+    # context = {'form': sf}
+    context.update(form=sf)
+    return render(request, 'bboard/search.html', context)

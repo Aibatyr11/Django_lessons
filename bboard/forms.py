@@ -1,4 +1,5 @@
 from cProfile import label
+#from collections.abc import generator
 from dataclasses import fields
 from django import forms
 from django.contrib.auth.models import User
@@ -7,7 +8,7 @@ from django.forms import ModelForm, modelform_factory, DecimalField, modelformse
 from django.forms.widgets import Select
 
 from bboard.models import Bb, Rubric
-
+from captcha.fields import CaptchaField
 from django.core import validators
 
 
@@ -45,6 +46,15 @@ class BbForm(ModelForm):
                                     widget = forms.widgets.Select(attrs={'size':8}))
 
 
+    captcha = CaptchaField(
+        label='Введите текст',
+        error_messages={'invalid': 'Неправильный текст'},
+        # generator='captcha.helpers.random_char_challenge',
+        # generator='captcha.helpers.math_challenge'
+        #generator='captcha.helpers.word_challenge'
+    )
+
+
     def clean_title(self):
         val = self.cleaned_data['title']
         if val == 'Прошлогодний снег':
@@ -59,7 +69,7 @@ class BbForm(ModelForm):
                 'кажите описание товара'
             )
 
-        if not self.cleaned_data['price'] < 0:
+        if self.cleaned_data['price'] < 0:
             errors['price'] = ValidationError(
                 'price>0'
             )
@@ -97,9 +107,12 @@ class RubricBaseFormSet(BaseModelFormSet):
 
 
 
-#hw
-
 class MyForm(forms.Form):
-    name = forms.CharField(label="Имя", max_length=100, required=True)
-    email = forms.EmailField(label="Email", required=True)
-    age = forms.IntegerField(label="Возраст", required=True, min_value=1)
+    name = forms.CharField(max_length=100)
+
+
+class SearchForm(forms.Form):
+    keyword = forms.CharField(max_length=20, label="Искомое слово")
+    rubric = forms.ModelChoiceField(queryset=Rubric.objects.all(),
+                                    label='Rubric')
+
