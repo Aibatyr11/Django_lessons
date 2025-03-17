@@ -88,13 +88,22 @@ WSGI_APPLICATION = 'samplesite.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-
-        # 'ATOMIC_REQUESTS': False, # по умолчанию, каждая операция в отдельонм транзакций
-        #'ATOMIC_REQUESTS': True, # атомарные запросы, все операции в одной транзакций
-        #'AUTOCOMMIT': True, # по умолчанию, автоматическое завершение транзакций commit = отправить
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # #
+    # #     # 'ATOMIC_REQUESTS': False, # по умолчанию, каждая операция в отдельонм транзакций
+    # #     #'ATOMIC_REQUESTS': True, # атомарные запросы, все операции в одной транзакций
+    # #     #'AUTOCOMMIT': True, # по умолчанию, автоматическое завершение транзакций commit = отправить
+    # }
+    #
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "django_db",
+        "USER": "django_user",
+        "PASSWORD": "1234",
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
     }
 }
 

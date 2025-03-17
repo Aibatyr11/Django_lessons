@@ -1,0 +1,597 @@
+[
+  {
+    "model": "admin.logentry",
+    "pk": 1,
+    "fields": {
+      "action_time": "2024-11-08T11:13:19.482Z",
+      "user": 1,
+      "content_type": null,
+      "object_id": "1",
+      "object_repr": "Недвижимость",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 2,
+    "fields": {
+      "action_time": "2024-11-08T11:13:27.513Z",
+      "user": 1,
+      "content_type": null,
+      "object_id": "2",
+      "object_repr": "Транспорт",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 3,
+    "fields": {
+      "action_time": "2024-11-08T11:16:40.227Z",
+      "user": 1,
+      "content_type": null,
+      "object_id": "1",
+      "object_repr": "Плотина (500 тг.)",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 4,
+    "fields": {
+      "action_time": "2024-11-08T11:17:06.755Z",
+      "user": 1,
+      "content_type": null,
+      "object_id": "2",
+      "object_repr": "Бобёр ездовой (100500 тг.)",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 5,
+    "fields": {
+      "action_time": "2024-11-08T12:17:43.938Z",
+      "user": 1,
+      "content_type": null,
+      "object_id": "3",
+      "object_repr": "dfg4 (1231 тг.)",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 6,
+    "fields": {
+      "action_time": "2024-12-06T11:37:19.209Z",
+      "user": 1,
+      "content_type": null,
+      "object_id": "18",
+      "object_repr": "wrwr (2342 тг.)",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$870000$sPyHJZ67bmTVdN9Y8BGLWv$PEM3bbsg7/idmQkEqC4F7Bd/bVXO5j2Pd5sdD+igB1I=",
+      "last_login": "2025-03-13T14:58:19.498Z",
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2024-11-08T11:01:05.781Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$870000$isF4Y8IfTskjcuFdndl0TG$/XyPq2SfZGbWm7YMpdVbA8n2qPn8M0zqIYo6LandqEk=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "admin2",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2024-11-11T11:12:25.708Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$870000$Y1bgTbOuWAYlJFqjFMp4lQ$YP3AKhFNw0zhCaXAx/XsiPTglv8oeT6Y0uSuFDz3jR0=",
+      "last_login": "2025-02-24T16:07:45.477Z",
+      "is_superuser": true,
+      "username": "admin7",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2025-02-24T14:51:49.686Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "4xl5hcrn1pge4hnhvccyq1trzglhuo6h",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAUBf-FtSGFeoG6dN9vaO4DpGogKe3K-O_apAvdnpk5LzXhtuZpa3GZZlEXZdTpdyPkRyw7kDuWW9Vcy7rMpHdFH7TpsUp8Xg_37yBjy9-6M4xgnI1O0AIxBfLAPQudfc-E4o2XDoCSczIkogFS4mhTsMYGIvX-AAVkORY:1tsk0p:nj1x5ur18cIg5Lx6D_hARVYhd7Gf8Ty14_YKdKUveTg",
+      "expire_date": "2025-03-27T14:58:19.502Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "co3ecwdl0pmnoi6y63mwcie2noz3nuvu",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAUBf-FtSGFeoG6dN9vaO4DpGogKe3K-O_apAvdnpk5LzXhtuZpa3GZZlEXZdTpdyPkRyw7kDuWW9Vcy7rMpHdFH7TpsUp8Xg_37yBjy9-6M4xgnI1O0AIxBfLAPQudfc-E4o2XDoCSczIkogFS4mhTsMYGIvX-AAVkORY:1tngao:DQa25NTVphTHvGy2gMIgeoi_M_B6d0eFi3SjTW1z8fk",
+      "expire_date": "2025-03-13T16:18:34.050Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "iw2qb1n39xgl9fl9stgna3tgupchnnsm",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAUBf-FtSGFeoG6dN9vaO4DpGogKe3K-O_apAvdnpk5LzXhtuZpa3GZZlEXZdTpdyPkRyw7kDuWW9Vcy7rMpHdFH7TpsUp8Xg_37yBjy9-6M4xgnI1O0AIxBfLAPQudfc-E4o2XDoCSczIkogFS4mhTsMYGIvX-AAVkORY:1tp6LN:g1_eh-XdxlwB5xC84scU8CmeJHGVPICIS57NwUg6VmQ",
+      "expire_date": "2025-03-17T14:00:29.666Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "vr1ht2z97umwaeg1wn93n5hh62bi39l8",
+    "fields": {
+      "session_data": ".eJxVjEEOwiAQRe_C2pDOQAVcuu8ZyMCAVA0kpV0Z765NutDtf-_9l_C0rcVvPS1-ZnERIE6_W6D4SHUHfKd6azK2ui5zkLsiD9rl1Dg9r4f7d1Col2-N4BDIWWTWMMYM-mzQGmWiUoyDipocJjegg6zZJa3NaJUNBkxGpCDeH6tPNog:1tBB0m:q9Y-n8PGKFgDt53kNK0wgQIJkfvZR1uw5pmrKeZlKi8",
+      "expire_date": "2024-11-27T10:54:12.725Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "y79xgoqzr395glctfz8jp3c6cwhd3z27",
+    "fields": {
+      "session_data": ".eJxVjEEOwiAQRe_C2pDOQAVcuu8ZyMCAVA0kpV0Z765NutDtf-_9l_C0rcVvPS1-ZnERIE6_W6D4SHUHfKd6azK2ui5zkLsiD9rl1Dg9r4f7d1Col2-N4BDIWWTWMMYM-mzQGmWiUoyDipocJjegg6zZJa3NaJUNBkxGpCDeH6tPNog:1tJWdt:4xp2yiZkcRRaQAqryJZJpcQ5lyqX4IjFrB7FZOJKY70",
+      "expire_date": "2024-12-20T11:37:05.376Z"
+    }
+  },
+  {
+    "model": "captcha.captchastore",
+    "pk": 9,
+    "fields": {
+      "challenge": "DYATEL",
+      "response": "dyatel",
+      "hashkey": "53701a6f06409313433ddf6729088e2ff94b3b2d",
+      "expiration": "2025-03-13T16:20:57.427Z"
+    }
+  },
+  {
+    "model": "captcha.captchastore",
+    "pk": 10,
+    "fields": {
+      "challenge": "TETEREV",
+      "response": "teterev",
+      "hashkey": "397f0ecd97bec8a958fa551e168464f906332d79",
+      "expiration": "2025-03-13T16:21:20.396Z"
+    }
+  },
+  {
+    "model": "captcha.captchastore",
+    "pk": 11,
+    "fields": {
+      "challenge": "BOBER",
+      "response": "bober",
+      "hashkey": "0eeadc43b18adda73d8329ef53137d054c707562",
+      "expiration": "2025-03-13T16:21:26.358Z"
+    }
+  },
+  {
+    "model": "captcha.captchastore",
+    "pk": 12,
+    "fields": {
+      "challenge": "TETEREV",
+      "response": "teterev",
+      "hashkey": "f3ed0671e5ae30b3a94e8679e4cb7279b6b28c7f",
+      "expiration": "2025-03-13T16:22:09.320Z"
+    }
+  },
+  {
+    "model": "captcha.captchastore",
+    "pk": 13,
+    "fields": {
+      "challenge": "BOBER",
+      "response": "bober",
+      "hashkey": "541b3d8f8ba9f6ed648d336a5af09267314b0c14",
+      "expiration": "2025-03-13T16:22:21.453Z"
+    }
+  },
+  {
+    "model": "captcha.captchastore",
+    "pk": 14,
+    "fields": {
+      "challenge": "BOBER",
+      "response": "bober",
+      "hashkey": "b4c4038efeb9bbd5a3b8f0a43c9be8a015221b85",
+      "expiration": "2025-03-13T16:24:12.715Z"
+    }
+  },
+  {
+    "model": "captcha.captchastore",
+    "pk": 15,
+    "fields": {
+      "challenge": "HOMYAK",
+      "response": "homyak",
+      "hashkey": "ce96d2eee5520b1e697ae7f0fbbb166175a950a2",
+      "expiration": "2025-03-13T16:24:37.026Z"
+    }
+  },
+  {
+    "model": "bboard.rubric",
+    "pk": 1,
+    "fields": {
+      "name": "Недвижимость",
+      "order": 1
+    }
+  },
+  {
+    "model": "bboard.rubric",
+    "pk": 2,
+    "fields": {
+      "name": "Транспорт",
+      "order": 2
+    }
+  },
+  {
+    "model": "bboard.rubric",
+    "pk": 3,
+    "fields": {
+      "name": "Бытовая техника",
+      "order": 3
+    }
+  },
+  {
+    "model": "bboard.rubric",
+    "pk": 4,
+    "fields": {
+      "name": "Сельхозинвентарь",
+      "order": 4
+    }
+  },
+  {
+    "model": "bboard.rubric",
+    "pk": 5,
+    "fields": {
+      "name": "Мебель",
+      "order": 5
+    }
+  },
+  {
+    "model": "bboard.rubric",
+    "pk": 6,
+    "fields": {
+      "name": "Сантехника",
+      "order": 6
+    }
+  },
+  {
+    "model": "bboard.rubric",
+    "pk": 7,
+    "fields": {
+      "name": "Растения",
+      "order": 7
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 1,
+    "fields": {
+      "kind": "s",
+      "rubric": 1,
+      "title": "Земельный участок",
+      "content": "Большой",
+      "price": "1000000.00",
+      "published": "2024-11-08T11:16:40.224Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 2,
+    "fields": {
+      "kind": "s",
+      "rubric": 2,
+      "title": "Бобёр ездовой",
+      "content": "Несётся как лошадь",
+      "price": "100500.00",
+      "published": "2024-11-08T11:17:06.754Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 3,
+    "fields": {
+      "kind": "c",
+      "rubric": 2,
+      "title": "Что-то",
+      "content": "",
+      "price": "1230.00",
+      "published": "2024-11-08T12:17:43.936Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 5,
+    "fields": {
+      "kind": "s",
+      "rubric": 5,
+      "title": "Диван",
+      "content": "Продавленный",
+      "price": "200.00",
+      "published": "2024-11-15T10:19:50.806Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 6,
+    "fields": {
+      "kind": "s",
+      "rubric": 6,
+      "title": "Раковина",
+      "content": "Сильно битая",
+      "price": "50.00",
+      "published": "2024-11-15T10:27:02.749Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 7,
+    "fields": {
+      "kind": "s",
+      "rubric": 4,
+      "title": "Мотыга",
+      "content": "Ржавая",
+      "price": "40.00",
+      "published": "2024-11-15T10:33:40.503Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 8,
+    "fields": {
+      "kind": "s",
+      "rubric": 4,
+      "title": "Лопата",
+      "content": "Почти новая",
+      "price": "1000.00",
+      "published": "2024-11-15T10:36:59.948Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 9,
+    "fields": {
+      "kind": "s",
+      "rubric": 3,
+      "title": "Пылесос",
+      "content": "Хороший, мощный",
+      "price": "1000.00",
+      "published": "2024-11-15T12:00:13.908Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 10,
+    "fields": {
+      "kind": "s",
+      "rubric": 3,
+      "title": "Стиральная машина",
+      "content": "Автоматическая",
+      "price": "3000.00",
+      "published": "2024-11-15T12:00:13.908Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 11,
+    "fields": {
+      "kind": "s",
+      "rubric": 7,
+      "title": "Товар",
+      "content": "Настоящий товар, бери оптом",
+      "price": "53000.00",
+      "published": "2024-11-25T11:00:27.076Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 12,
+    "fields": {
+      "kind": "s",
+      "rubric": 7,
+      "title": "Другой товар",
+      "content": "Только качественный продукт",
+      "price": "57568.00",
+      "published": "2024-11-25T11:42:13.133Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 13,
+    "fields": {
+      "kind": "s",
+      "rubric": 1,
+      "title": "Тестим редирект",
+      "content": "Тестим редирект",
+      "price": "235256.00",
+      "published": "2024-11-27T10:50:24.180Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 14,
+    "fields": {
+      "kind": "s",
+      "rubric": 5,
+      "title": "Ещё одно",
+      "content": "Ещё одно дно",
+      "price": "2346.00",
+      "published": "2024-11-27T10:59:08.237Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 15,
+    "fields": {
+      "kind": "s",
+      "rubric": 3,
+      "title": "тестим redirect",
+      "content": "Пашет!",
+      "price": "34576.00",
+      "published": "2024-11-29T10:47:52.704Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 16,
+    "fields": {
+      "kind": "s",
+      "rubric": 5,
+      "title": "Тестируем View",
+      "content": "Полёт нормальный, все бобры здоровы",
+      "price": "45678.00",
+      "published": "2024-12-02T10:55:34.605Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 18,
+    "fields": {
+      "kind": "s",
+      "rubric": 1,
+      "title": "wrwr",
+      "content": "werwer",
+      "price": "2342.00",
+      "published": "2024-12-06T11:37:19.206Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 19,
+    "fields": {
+      "kind": "s",
+      "rubric": 4,
+      "title": "Тест каптчи",
+      "content": "фыв",
+      "price": "45000.00",
+      "published": "2025-03-13T15:45:23.373Z"
+    }
+  },
+  {
+    "model": "testapp.spare",
+    "pk": 1,
+    "fields": {
+      "name": "Болт"
+    }
+  },
+  {
+    "model": "testapp.spare",
+    "pk": 2,
+    "fields": {
+      "name": "Гайка"
+    }
+  },
+  {
+    "model": "testapp.spare",
+    "pk": 3,
+    "fields": {
+      "name": "Шайба"
+    }
+  },
+  {
+    "model": "testapp.spare",
+    "pk": 4,
+    "fields": {
+      "name": "Шпилька"
+    }
+  },
+  {
+    "model": "testapp.machine",
+    "pk": 1,
+    "fields": {
+      "name": "Самосвал"
+    }
+  },
+  {
+    "model": "testapp.machine",
+    "pk": 2,
+    "fields": {
+      "name": "Тепловоз"
+    }
+  },
+  {
+    "model": "testapp.kit",
+    "pk": 1,
+    "fields": {
+      "machine": 1,
+      "spare": 1,
+      "count": 10
+    }
+  },
+  {
+    "model": "testapp.kit",
+    "pk": 2,
+    "fields": {
+      "machine": 1,
+      "spare": 2,
+      "count": 100
+    }
+  },
+  {
+    "model": "testapp.kit",
+    "pk": 4,
+    "fields": {
+      "machine": 2,
+      "spare": 1,
+      "count": 49
+    }
+  },
+  {
+    "model": "testapp.kit",
+    "pk": 5,
+    "fields": {
+      "machine": 2,
+      "spare": 3,
+      "count": 49
+    }
+  },
+  {
+    "model": "testapp.message",
+    "pk": 1,
+    "fields": {
+      "content": "Привет",
+      "published": "2025-03-06T15:04:52.221Z"
+    }
+  },
+  {
+    "model": "testapp.privatemessage",
+    "pk": 1,
+    "fields": {
+      "user": 1
+    }
+  }
+]

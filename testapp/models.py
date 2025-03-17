@@ -73,4 +73,25 @@ class PrivateMessage(Message):
     #     ordering = ['order', 'name']
 
 
+# from django.contrib.postgres.fields import ArrayField,HStoreField
+#
+#
+# class PGSRubric(models.Model):
+#     name = models.CharField(max_length=30, verbose_name='Name')
+#     description = models.TextField(verbose_name='Description')
+#
+#     tags = ArrayField(models.CharField(max_length=20),
+#                                        verbose_name='Tags')
+#
+#
+# class PGSProject(models.Model):
+#     name = models.CharField(max_length=40, verbose_name='Название')
+#     platforms = HStoreField(verbose_name='platforms')
+#     description = models.TextField(verbose_name='Description')
+#
+#     tags = ArrayField(models.CharField(max_length=20),
+#                       verbose_name='Tags')
+
+
+
 
