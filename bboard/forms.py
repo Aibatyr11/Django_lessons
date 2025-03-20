@@ -54,6 +54,9 @@ class BbForm(ModelForm):
         #generator='captcha.helpers.word_challenge'
     )
 
+    my_field_hw_31 = forms.CharField(
+        label='Введите текст',
+    )
 
     def clean_title(self):
         val = self.cleaned_data['title']

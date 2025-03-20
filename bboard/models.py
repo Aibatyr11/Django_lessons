@@ -1,6 +1,7 @@
 from django.core import validators
 from django.core.exceptions import ValidationError
 from django.db import models
+from precise_bbcode.fields import BBCodeContent, BBCodeTextField
 
 
 def validate_even(val):
@@ -62,6 +63,10 @@ class BbManager(models.Manager):
 
 
 class Rubric(models.Model):
+
+
+
+
     name = models.CharField(
         unique=True,
         max_length=20,
@@ -157,6 +162,9 @@ class Bb(models.Model):
         blank=True,
         verbose_name='Описание',
     )
+
+    # content = BBCodeTextField(verbose_name='описание')
+
 
     # price = models.FloatField(null=True, blank=True, verbose_name='Цена')
     price = models.DecimalField(

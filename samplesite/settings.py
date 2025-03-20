@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 
 from django.conf.global_settings import STATICFILES_DIRS, ABSOLUTE_URL_OVERRIDES
+from precise_bbcode.conf.settings import BBCODE_DISABLE_BUILTIN_TAGS, BBCODE_ALLOW_CUSTOM_TAGS, BBCODE_ALLOW_SMILIES, \
+    SMILIES_UPLOAD_TO
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'captcha',
+    'precise_bbcode',
 
     'bboard',  # 'bboard.apps.BboardConfig',
     'testapp',
@@ -88,22 +91,22 @@ WSGI_APPLICATION = 'samplesite.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     # #
     # #     # 'ATOMIC_REQUESTS': False, # по умолчанию, каждая операция в отдельонм транзакций
     # #     #'ATOMIC_REQUESTS': True, # атомарные запросы, все операции в одной транзакций
     # #     #'AUTOCOMMIT': True, # по умолчанию, автоматическое завершение транзакций commit = отправить
     # }
     #
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "django_db",
-        "USER": "django_user",
-        "PASSWORD": "1234",
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
+    # "default": {
+    #     "ENGINE": "django.db.backends.postgresql",
+    #     "NAME": "django_db",
+    #     "USER": "django_user",
+    #     "PASSWORD": "1234",
+    #     "HOST": "127.0.0.1",
+    #     "PORT": "5432",
     }
 }
 
@@ -146,6 +149,9 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 # STATIC_ROOT = BASE_DIR / 'static'
 
 # Default primary key field type
@@ -183,3 +189,15 @@ CAPTCHA_DICTIONARY_MAX_LENGTH = 99
 # CAPTCHA_FOREGROUND_COLOR = '#ffffff'
 
 # CAPTCHA_IMAGE_SIZE = (400, 400)
+
+
+"""
+BBcode
+"""
+
+BBCODE_NEWLINE = "<br>"
+
+# BBCODE_DISABLE_BUILTIN_TAGS = False
+# BBCODE_ALLOW_CUSTOM_TAGS = True
+# BBCODE_ALLOW_SMILIES = True
+SMILIES_UPLOAD_TO = 'static/precise_bbcode/smilies'

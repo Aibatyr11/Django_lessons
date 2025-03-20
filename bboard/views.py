@@ -1,5 +1,6 @@
 from lib2to3.fixes.fix_input import context
 
+from certifi import contents
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.contrib.auth.middleware import get_user
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
@@ -23,6 +24,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.base import View, TemplateView
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
+from precise_bbcode.bbcode import get_parser
 
 from bboard.forms import BbForm, RubricBaseFormSet, MyForm, SearchForm
 from bboard.models import Bb, Rubric
@@ -291,6 +293,14 @@ class BbDeleteView(DeleteView):
 
 
 
+def detail(request, pk):
+    parser = get_parser()
+    bb = Bb.objects.get(pk=pk)
+    parsed_content = parser.render(bb.content)
+    context = {'bb': bb, 'parsed_content': parsed_content}
+
+    return render(request, 'bboard/bb_detail.html', context=context)
+
 
 # @login_required
 # @login_required(login_url="/login/")
@@ -406,6 +416,8 @@ def my_view(request):
 def search(request):
     context = {}
 
+    # parser = get_parser()
+
     if request.method == 'POST':
         sf = SearchForm(request.POST)
         if sf.is_valid():
@@ -415,6 +427,8 @@ def search(request):
                 #title__icontains=keyword,
                 title__iregex=keyword,
                 rubric=rubric_id)
+
+            # parsed_content = parser.render(bbs.content)
 
             context.update(bbs=bbs)
 
