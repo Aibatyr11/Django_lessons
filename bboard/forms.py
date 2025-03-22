@@ -119,3 +119,16 @@ class SearchForm(forms.Form):
     rubric = forms.ModelChoiceField(queryset=Rubric.objects.all(),
                                     label='Rubric')
 
+
+
+from .models import My_hw_BBCODE
+#hw32
+
+class hw_BBCODE_FORM(forms.ModelForm):
+    class Meta:
+        model = My_hw_BBCODE
+        fields = ['content']
+
+
+
+

@@ -438,3 +438,21 @@ def search(request):
     # context = {'form': sf}
     context.update(form=sf)
     return render(request, 'bboard/search.html', context)
+
+
+
+#hw32
+
+from .forms import hw_BBCODE_FORM
+def save_bbcode(request):
+    form = hw_BBCODE_FORM()
+    if request.method == 'POST':
+        form = hw_BBCODE_FORM(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('bboard:index')
+
+        else:
+            form = hw_BBCODE_FORM()
+
+    return render(request, 'bboard/hw.html', {'form': form})
