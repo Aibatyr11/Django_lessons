@@ -121,14 +121,14 @@ class SearchForm(forms.Form):
 
 
 
-from .models import My_hw_BBCODE
-#hw32
-
-class hw_BBCODE_FORM(forms.ModelForm):
-    class Meta:
-        model = My_hw_BBCODE
-        fields = ['content']
-
+# # from .models import My_hw_BBCODE
+# #hw32
+#
+# class hw_BBCODE_FORM(forms.ModelForm):
+#     class Meta:
+#         model = My_hw_BBCODE
+#         fields = ['content']
+#
 
 
 

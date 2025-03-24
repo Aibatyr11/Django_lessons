@@ -1,54 +1,38 @@
 {% extends "layout/basic.html" %}
 
+{% load django_bootstrap5 %}
+
 
 {% block title %}Добавление объявления{% endblock %}
 
 {% block content %}
 <h2>Добавление объявления</h2>
 
+
     {% if form.is_multipart %}
         <form method="post" enctype="multipart/form-data">
     {% else %}
         <form method="post">
     {% endif %}
-
         {% csrf_token %}
-{#        {{ form.as_p }}#}
 
-        {% for hidden in form.hidden_fields %}
-            {{ hidden }}
+{#        {% bootstrap_form form exclude='price, rubric' %}#}
+{#        {% bootstrap_button form size = 'md' %}#}
+{#            {% bootstrap_form succes_css_class='Someclass'  %}#}
 
-        {% endfor %}
+{#        {% bootstrap_form form succes_css_class='has-succes' error_css_class='has-error' %}#}
 
-        {% if form.non_field_errors %}
-            <ul>
-            {% for error in form.non_field_errors %}
-                <li><em>{{ error|escape }}</em></li>
+{#            {% bootstrap_form form wrapper_class = 'SOMECLASS' %}#}
 
-            {% endfor %}
-            </ul>
-
-        {% endif %}
-
-        {% for field in form.visible_fields %}
-            {% if field.errors %}
-                <ul>
-                    {% for error in field.errors %}
-                        <li><em>{{ error|escape }}</em></li>
-
-                    {% endfor %}
-            </ul>
-
-            {% endif %}
-            <p>{{ field.label_tag }}<br>
-            {{ field }}<br>
-            {{ field.help_text }}
-            </p>
-        {% endfor %}
+{#            {% bootstsrap_form form layout='vertical' %}#}
+{#            {% bootstrap_form form layout='horizontal' %}#}
+{#            {% bootstrap_form form layout='floating' %}#}
 
 
-        <p><button type="submit">Добавить</button></p>
+        {% bootstrap_form form %}
+        {% bootstrap_button 'Добавить'%}
 
-     </form>
+
     </form>
+
 {% endblock %}

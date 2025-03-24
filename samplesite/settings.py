@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 
 from django.conf.global_settings import STATICFILES_DIRS, ABSOLUTE_URL_OVERRIDES
+from django_bootstrap5.core import BOOTSTRAP5_DEFAULTS
 from precise_bbcode.conf.settings import BBCODE_DISABLE_BUILTIN_TAGS, BBCODE_ALLOW_CUSTOM_TAGS, BBCODE_ALLOW_SMILIES, \
     SMILIES_UPLOAD_TO
 
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
 
     'captcha',
     'precise_bbcode',
+    'django_bootstrap5',
 
     'bboard',  # 'bboard.apps.BboardConfig',
     'testapp',
@@ -201,3 +203,9 @@ BBCODE_NEWLINE = "<br>"
 # BBCODE_ALLOW_CUSTOM_TAGS = True
 # BBCODE_ALLOW_SMILIES = True
 SMILIES_UPLOAD_TO = 'static/precise_bbcode/smilies'
+
+BOOTSTRAP5 = {
+    'required_css_class': 'required',
+    'succes_css_class': 'has-success',
+    'error_css_class': 'has-error',
+}

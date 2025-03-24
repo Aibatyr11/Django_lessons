@@ -231,12 +231,12 @@ class RevRubric(Rubric):
 
 
 
-#hw
-class My_hw_BBCODE(models.Model):
-    content = models.TextField()
-
-    def __str__(self):
-        return self.content
+# #hw
+# class My_hw_BBCODE(models.Model):
+#     content = models.TextField()
+#
+#     def __str__(self):
+#         return self.content
 
 
 

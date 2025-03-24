@@ -1,5 +1,7 @@
 {% extends "layout/basic.html" %}
 
+{% load django_bootstrap5 %}
+
 {% load bbcode_tags %}
 
 {% block content %}
@@ -27,6 +29,10 @@
 
         </div>
     {% endfor %}
+
+
+    {% bootstrap_pagination page size='sm' pages_to_show='5' %}
+
 
     <div>
         {% if page.has_previous %}

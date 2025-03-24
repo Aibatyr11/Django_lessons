@@ -6,7 +6,7 @@ from bboard.models import Bb
 from bboard.views import (index, by_rubric, BbCreateView,
                           add_and_save, bb_detail, BbRubricBbsView,
                           BbDetailView, BbEditView, BbDeleteView, BbIndexView,
-                          BbRedirectView, edit, rubrics, MyFormHw, search,save_bbcode)
+                          BbRedirectView, edit, rubrics, MyFormHw, search)
 
 app_name = 'bboard'
 
@@ -31,9 +31,9 @@ urlpatterns = [
 
     path('search/', search, name='search'),
 
-    path('MyFormHw/', MyFormHw, name='MyFormHw'),
+    # path('MyFormHw/', MyFormHw, name='MyFormHw'),
 
-    path('save_bbcode/', save_bbcode, name='save_bbcode'),
+
 
 
 

@@ -441,18 +441,18 @@ def search(request):
 
 
 
-#hw32
-
-from .forms import hw_BBCODE_FORM
-def save_bbcode(request):
-    form = hw_BBCODE_FORM()
-    if request.method == 'POST':
-        form = hw_BBCODE_FORM(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('bboard:index')
-
-        else:
-            form = hw_BBCODE_FORM()
-
-    return render(request, 'bboard/hw.html', {'form': form})
+# #hw32
+#
+# from .forms import hw_BBCODE_FORM
+# def save_bbcode(request):
+#     form = hw_BBCODE_FORM()
+#     if request.method == 'POST':
+#         form = hw_BBCODE_FORM(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('bboard:index')
+#
+#         else:
+#             form = hw_BBCODE_FORM()
+#
+#     return render(request, 'bboard/hw.html', {'form': form})
