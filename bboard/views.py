@@ -26,8 +26,8 @@ from django.views.generic.base import View, TemplateView
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 from precise_bbcode.bbcode import get_parser
 
-from bboard.forms import BbForm, RubricBaseFormSet, MyForm, SearchForm
-from bboard.models import Bb, Rubric
+from bboard.forms import BbForm, RubricBaseFormSet, MyForm, SearchForm, ImgForm
+from bboard.models import Bb, Rubric, Img
 
 from django.contrib.auth import authenticate, login, logout
 
@@ -441,18 +441,23 @@ def search(request):
 
 
 
-# #hw32
-#
-# from .forms import hw_BBCODE_FORM
-# def save_bbcode(request):
-#     form = hw_BBCODE_FORM()
-#     if request.method == 'POST':
-#         form = hw_BBCODE_FORM(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('bboard:index')
-#
-#         else:
-#             form = hw_BBCODE_FORM()
-#
-#     return render(request, 'bboard/hw.html', {'form': form})
+def add_img(request):
+    if request.method == 'POST':
+        form = ImgForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('bboard:index')
+
+    else:
+        form = ImgForm()
+
+    context = {'form': form}
+    return render(request, 'bboard/add_img.html', context)
+
+
+
+def delete_img(request, pk):
+    img = Img.objects.get(pk=pk)
+    img.image.delete(save=False)
+    img.delete()
+    return redirect('bboard:index')

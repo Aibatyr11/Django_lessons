@@ -1,9 +1,17 @@
 {% extends "layout/basic.html" %}
 
+{% load bbtags %}
 
 {% block title %}{{ bb.title }}{% endblock %}
 
 {% block content %}
+
+    {% lst ', ' '1' '2' '3' '4' '5' %}
+    {% lst ", " "1" "2" "3" "4" "5" %}
+
+    {% ulist "1" "2" "3" "4" "5" %}
+
+
     <div>
         <p>Рубрика: <a href="{% url 'bboard:by_rubric' bb.rubric.pk %}">
                                                 {{ bb.rubric.name }}</a></p>
@@ -12,7 +20,10 @@
 {#        <p>{{ parsed_content|safe }}</p>#}
 
 {#        <p>{{ bb.content.rendered }}</p>#}
-        <p>Цена: <strong>{{ bb.price|floatformat:'2g' }}</strong> тг.</p>
+{#        <p>Цена: <strong>{{ bb.price|floatformat:'2g' }}</strong> тг.</p>#}
+{#        <p>Цена: <strong>{{ bb.price|cur }}</strong></p>#}
+{#        <p>Цена: {{ bb.price|cur|safe }}</p>#}
+        <p>Цена: {{ bb.price|cur }}</p>
         <p>{{ bb.published|date:"d.m.Y H:i:s" }}</p>
         <p>
             <a href="{% url 'bboard:edit' bb.pk %}">Изменить</a> |

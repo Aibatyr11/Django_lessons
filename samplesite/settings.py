@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
-from django.conf.global_settings import STATICFILES_DIRS, ABSOLUTE_URL_OVERRIDES
+from django.conf.global_settings import STATICFILES_DIRS, ABSOLUTE_URL_OVERRIDES, FILE_UPLOAD_MAX_MEMORY_SIZE, \
+    FILE_UPLOAD_TEMP_DIR, FILE_UPLOAD_PERMISSIONS, FILE_UPLOAD_DIRECTORY_PERMISSIONS
 from django_bootstrap5.core import BOOTSTRAP5_DEFAULTS
 from precise_bbcode.conf.settings import BBCODE_DISABLE_BUILTIN_TAGS, BBCODE_ALLOW_CUSTOM_TAGS, BBCODE_ALLOW_SMILIES, \
     SMILIES_UPLOAD_TO
@@ -82,6 +83,14 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            # 'libraries':{
+            #     # 'bbtags': 'bboard.bbtags',
+            #     'myname': 'bboard.bbtags',
+            # }
+
+            # 'builtins': [ # load не нужен
+            #     'bboard.bbtags',
+            # ]
         },
     },
 ]
@@ -209,3 +218,17 @@ BOOTSTRAP5 = {
     'succes_css_class': 'has-success',
     'error_css_class': 'has-error',
 }
+
+#######
+#files#
+#######
+#
+# FILE_UPLOAD_MAX_MEMORY_SIZE = 2_621_440 #2.5 Mb
+#
+# FILE_UPLOAD_TEMP_DIR = None
+#
+# FILE_UPLOAD_PERMISSIONS = None #0o644
+#
+# FILE_UPLOAD_DIRECTORY_PERMISSIONS = None #0o600
+#
+# DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'

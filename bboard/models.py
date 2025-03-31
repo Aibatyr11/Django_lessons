@@ -1,3 +1,6 @@
+from datetime import datetime
+from os.path import split, splitext
+
 from django.core import validators
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -9,6 +12,11 @@ def validate_even(val):
         raise ValidationError('Число %(value)s нечётное', code='odd',
                               params={'value': val})
 
+
+def get_timestamp_path(instance, filename):
+    # return '%s%s' % (datetime.now().timestamp(), splitext(filename)[1])
+
+    return f'{datetime.now().timestamp()}{splitext(filename)[1]}'
 
 class MinMaxValueValidator:
     def __init__(self, min_value, max_value):
@@ -183,6 +191,15 @@ class Bb(models.Model):
         verbose_name='Опубликовано',
     )
 
+    # archive = models.FileField(max_length=100, upload_to='archives/') #просто файл, любой
+
+    # archive = models.FileField(max_length=100, upload_to='archives/%Y/%m/%d')
+
+    # archive = models.FileField(max_length=100, upload_to=get_timestamp_path)
+    #
+
+    # image = models.ImageField(width_field=50, height_field=50)
+
     # is_active = models.BooleanField()
     # email = models.EmailField()
     # url = models.URLField()
@@ -242,3 +259,17 @@ class RevRubric(Rubric):
 
 
 
+class Img(models.Model):
+    image = models.ImageField(verbose_name='фото',
+                              upload_to=get_timestamp_path, #allow_empty_file=True
+                               )
+
+    desc = models.TextField(verbose_name='описание')
+
+    def delete(self, *args, **kwargs):
+        self.image.delete(save=False)
+        super().delete(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'фото'
+        verbose_name_plural = 'фоты'

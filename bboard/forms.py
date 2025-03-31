@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from django.forms import ModelForm, modelform_factory, DecimalField, modelformset_factory, BaseModelFormSet
 from django.forms.widgets import Select
 
-from bboard.models import Bb, Rubric
+from bboard.models import Bb, Rubric, Img
 from captcha.fields import CaptchaField
 from django.core import validators
 
@@ -121,14 +121,23 @@ class SearchForm(forms.Form):
 
 
 
-# # from .models import My_hw_BBCODE
-# #hw32
-#
-# class hw_BBCODE_FORM(forms.ModelForm):
-#     class Meta:
-#         model = My_hw_BBCODE
-#         fields = ['content']
-#
+class ImgForm(forms.ModelForm):
+    image = forms.ImageField(label="Фото",
+                             validators=[validators.FileExtensionValidator(
+                                 allowed_extensions=['gif', 'jpg', 'png'])],
+                             error_messages={
+                                 'invalid_extension': 'Этот формат не поддерживается'},
 
 
+                             widget = forms.widgets.ClearableFileInput(attrs={'multiple': True})
+                             )
+
+
+    desc = forms.CharField(label='описание',
+                           widget=forms.Textarea())
+
+
+    class Meta:
+        model = Img
+        fields = '__all__'
 
