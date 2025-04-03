@@ -1,6 +1,9 @@
+import os
+from datetime import datetime
 from lib2to3.fixes.fix_input import context
 
 from certifi import contents
+from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.contrib.auth.middleware import get_user
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
@@ -441,11 +444,33 @@ def search(request):
 
 
 
+# def add_img(request):
+#     if request.method == 'POST':
+#         form = ImgForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('bboard:index')
+#
+#     else:
+#         form = ImgForm()
+#
+#     context = {'form': form}
+#     return render(request, 'bboard/add_img.html', context)
+
+
+#Низкоуровневый - много писать
+FILES_ROOT = settings.BASE_DIR / 'files'
 def add_img(request):
     if request.method == 'POST':
         form = ImgForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            uploaded_file = request.FILES['image']
+            fn = f'{datetime.now().timestamp()}{os.path.splitext(uploaded_file.name)[1]}'
+            fn = os.path.join(FILES_ROOT, fn)
+            with open(fn, 'wb+') as destination:
+                for chunk in uploaded_file.chunks():
+                    destination.write(chunk)
+
             return redirect('bboard:index')
 
     else:
@@ -453,6 +478,28 @@ def add_img(request):
 
     context = {'form': form}
     return render(request, 'bboard/add_img.html', context)
+
+
+
+def img_index(request):
+    imgs = []
+    for entry in os.scandir(FILES_ROOT):
+        imgs.append(os.path.basename(entry))
+
+    context = {'imgs': imgs}
+    return render(request, 'bboard/img_index.html', context)
+
+
+def img_thumbs(request):
+    imgs = Img.objects.all()
+    context = {'imgs': imgs}
+    return render(request, 'bboard/img_thumbs.html', context)
+
+def get_img(request, filename):
+    fn = os.path.join(FILES_ROOT, filename)
+    return FileResponse(open(fn, 'rb'), content_type='application/octet-stream')
+
+
 
 
 

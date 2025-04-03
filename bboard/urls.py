@@ -6,7 +6,7 @@ from bboard.models import Bb
 from bboard.views import (index, by_rubric, BbCreateView,
                           add_and_save, bb_detail, BbRubricBbsView,
                           BbDetailView, BbEditView, BbDeleteView, BbIndexView,
-                          BbRedirectView, edit, rubrics, MyFormHw, search, add_img)
+                          BbRedirectView, edit, rubrics, MyFormHw, search, add_img,get_img,img_index, img_thumbs)
 
 app_name = 'bboard'
 
@@ -28,6 +28,13 @@ urlpatterns = [
 
 
     path('addimg/', add_img, name='add_img'),
+
+    path('imgindex', img_index, name='img_index'),
+
+    path('imgthumbs', img_thumbs, name='img_thumbs'),
+
+
+    path('getimg/<path:filename>/', get_img, name='get_img'),
 
 
     path('edit/<int:pk>/', edit, name='edit'),

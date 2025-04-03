@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+from email.policy import default
 from pathlib import Path
 
 from django.conf.global_settings import STATICFILES_DIRS, ABSOLUTE_URL_OVERRIDES, FILE_UPLOAD_MAX_MEMORY_SIZE, \
@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'captcha',
     'precise_bbcode',
     'django_bootstrap5',
+    'django_cleanup',
+    'easy_thumbnails',
 
     'bboard',  # 'bboard.apps.BboardConfig',
     'testapp',
@@ -232,3 +234,44 @@ BOOTSTRAP5 = {
 # FILE_UPLOAD_DIRECTORY_PERMISSIONS = None #0o600
 #
 # DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
+
+#THUMBNAILS
+
+THUMBNAIL_ALIASES = {
+    'bboard.Bb.picture':{
+        'default':{
+            'size':(500,300),
+            'crop':'scale',
+        },
+    },
+    'bboard':{
+        'default':{
+            'size':(400,300),
+            'crop':'smart',
+            'bw': True,
+        },
+    },
+    '':{
+        'default' : {
+            'size': (180, 240),
+            'crop': 'scale',
+        },
+        'big':{
+            'size': (480, 640),
+            'crop': '10,10',
+        }
+    }
+}
+
+# THUMBNAIL_DEFAULT_OPTIONS = {
+#     'quality': 90,
+#     'subsampling': 1,
+# }
+
+THUMBNAIL_MEDIA_URL = "/thumbs/"
+THUMBNAIL_MEDIA_ROOT = BASE_DIR / 'media/thumbs'
+THUMBNAIL_BASEDIR = "thumbs"
+THUMBNAIL_PREFIX = "thumb_"
+THUMBNAIL_EXTENSION = "jpg"
+THUMBNAIL_TRANSPARENCY_EXTENSION = "png"

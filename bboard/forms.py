@@ -128,8 +128,8 @@ class ImgForm(forms.ModelForm):
                              error_messages={
                                  'invalid_extension': 'Этот формат не поддерживается'},
 
+                             widget=forms.widgets.ClearableFileInput()
 
-                             widget = forms.widgets.ClearableFileInput(attrs={'multiple': True})
                              )
 
 
