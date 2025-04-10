@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from http.client import responses
 from lib2to3.fixes.fix_input import context
 
 from certifi import contents
@@ -9,6 +10,7 @@ from django.contrib.auth.middleware import get_user
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import redirect_to_login
+from django.contrib.messages.context_processors import messages
 from django.core.paginator import Paginator
 from django.db import transaction, DatabaseError
 from django.db.models import Count
@@ -39,19 +41,22 @@ from django.forms import formset_factory
 from samplesite.settings import DATABASES
 
 
-# Основной (вернуть)
-# def index(request):
-#     bbs = Bb.objects.order_by('-published')
-#     # rubrics = Rubric.objects.all()
-#     rubrics = Rubric.objects.annotate(cnt=Count('bb')).filter(cnt__gt=0)
-#     context = {'bbs': bbs, 'rubrics': rubrics}
-#
-#     return render(request, 'bboard/index.html', context)
-
 
 def index(request):
     bbs = Bb.objects.order_by('-published')
     rubrics = Rubric.objects.annotate(cnt=Count('bb')).filter(cnt__gt=0)
+
+    # if 'counter' in request.COOKIES:
+    #     cnt = int(request.COOKIES['counter'])+1
+    # else:
+    #     cnt = 1
+
+    if 'counter' in request.session:
+        cnt = request.session['counter']
+    else:
+        cnt = 1
+
+
 
     # user = User.objects.get(pk=request.user.pk)
     #
@@ -61,39 +66,7 @@ def index(request):
         pass
     else:
         return redirect_to_login(reverse('bboard:rubrics'))
-    #
-    #
-    # if request.user.is_authenticated:
-    #     pass
-    #
-    # else:
-    #     return redirect('login')
 
-    # if request.user.has_perm('bboard.add_rubric'):#есть ли права
-    #     pass
-
-    # if request.user.has_perms('bboard.add_rubric',
-    #                           'bboard.change_rubric',
-    #                           'bboard.delete_rubric'):#есть ли права мн.число
-    #     pass
-    # else:
-    #     return HttpResponseForbidden('Вы не имеете доступ')
-
-    # if request.user.has_module_perms('bboard')
-    #     pass
-
-    # request.user.get_user_permissions()#есть ли права
-    #
-    # request.user.get_group_permissions()#есть ли права
-    #
-    # request.user.get_all_permissions()  # есть ли права  all
-
-    # request.user.get_username()
-    # request.user.get_full_name()
-    # request.user.get_short_name()
-    #
-    # users = User.objects.with_perm('bboard.add_user')
-    # users = User.objects.with_perm('bboard.add_user', include_superusers=False)
 
     paginator = Paginator(bbs, 2)
 
@@ -104,7 +77,15 @@ def index(request):
 
     page = paginator.get_page(page_num)
 
-    context = {'bbs': page.object_list, 'rubrics': rubrics, 'page': page}
+   # context = {'bbs': page.object_list, 'rubrics': rubrics, 'page': page}
+    context = {'bbs': page.object_list, 'page': page, "cnt":cnt}
+   #
+    response = render(request, 'bboard/index.html', context)
+   #
+   #  response.set_cookie('counter', cnt)
+    request.session['counter'] = cnt
+
+    return response
 
 
     return render(request, 'bboard/index.html', context)
@@ -139,6 +120,7 @@ def by_rubric(request, rubric_id):
     # bbs = current_rubric.entries.all()
 
     context = {'bbs': bbs, 'rubrics': rubrics, 'current_rubric': current_rubric}
+
 
     return render(request, 'bboard/by_rubric.html', context)
 
@@ -211,6 +193,13 @@ def edit(request, pk):
                 if not bb.kind:
                     bb.kind = "s"
             bb.save()
+
+            messages.add_message(request, messages.SUCCESS,
+                                 'Объявление исправленно', extra_tags='safe')
+
+            messages.succes(request, messages.SUCCESS,
+                                 'Объявление исправленно')
+
 
 
             return redirect('bboard:by_rubric',

@@ -13,7 +13,7 @@ from email.policy import default
 from pathlib import Path
 
 from django.conf.global_settings import STATICFILES_DIRS, ABSOLUTE_URL_OVERRIDES, FILE_UPLOAD_MAX_MEMORY_SIZE, \
-    FILE_UPLOAD_TEMP_DIR, FILE_UPLOAD_PERMISSIONS, FILE_UPLOAD_DIRECTORY_PERMISSIONS
+    FILE_UPLOAD_TEMP_DIR, FILE_UPLOAD_PERMISSIONS, FILE_UPLOAD_DIRECTORY_PERMISSIONS, SESSION_ENGINE
 from django_bootstrap5.core import BOOTSTRAP5_DEFAULTS
 from precise_bbcode.conf.settings import BBCODE_DISABLE_BUILTIN_TAGS, BBCODE_ALLOW_CUSTOM_TAGS, BBCODE_ALLOW_SMILIES, \
     SMILIES_UPLOAD_TO
@@ -275,3 +275,18 @@ THUMBNAIL_BASEDIR = "thumbs"
 THUMBNAIL_PREFIX = "thumb_"
 THUMBNAIL_EXTENSION = "jpg"
 THUMBNAIL_TRANSPARENCY_EXTENSION = "png"
+
+
+#################
+####SESSION######
+#################
+
+#SESSION_ENGINE = "django.contrib.sessions.backends.db" # по умолчанию
+
+#SESSION_ENGINE = "django.contrib.sessions.backends.file"
+
+#SESSION_ENGINE = "django.contrib.sessions.backends.cashe"
+#
+# SESSION_ENGINE = "django.contrib.sessions.backends.cashed_db"
+
+#SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"

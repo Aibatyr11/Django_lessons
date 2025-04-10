@@ -26,6 +26,7 @@ from bboard import urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('todo/', include('todolist.urls', namespace='todo')),
+    path('testapp/', include('testapp.urls', namespace='testapp')),
     path('', include('bboard.urls', namespace='bboard')),
 
     path('accounts/login/', LoginView.as_view(), name='login'),

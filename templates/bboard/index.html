@@ -5,8 +5,11 @@
 {% load bbcode_tags %}
 
 {% block content %}
+    {% if cnt %}
+        <h3>cnt: {{ cnt }}</h3>
+    {% endif %}
 
-        {{ block.super }}
+{#        {{ block.super }}#}
 
     {% with bb_count=bbs.count %}
         {% if bb_count > 0 %}
