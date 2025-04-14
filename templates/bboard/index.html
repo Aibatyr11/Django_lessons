@@ -1,15 +1,26 @@
 {% extends "layout/basic.html" %}
 
 {% load django_bootstrap5 %}
-
 {% load bbcode_tags %}
 
 {% block content %}
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+            {{ message }}
+            </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+
+
     {% if cnt %}
         <h3>cnt: {{ cnt }}</h3>
     {% endif %}
-
-{#        {{ block.super }}#}
+    {#    {{ block.super }} #}
 
     {% with bb_count=bbs.count %}
         {% if bb_count > 0 %}
@@ -22,20 +33,20 @@
             <h2>
                 <a href="{% url 'bboard:detail' bb.pk %}">{{ bb.title_and_price }}</a>
             </h2>
+
 {#            <p>{{ bb.content }}</p>#}
-            {% bbcode bb.content %}
-{#            {{ bb.content|bbcode|safe }}#}
-{#             #}
+{#            {% bbcode bb.content %}#}
+            {{ bb.content|bbcode|safe }}
+
             <p><a href="{% url 'bboard:by_rubric' bb.rubric.pk %}">
                 {{ bb.rubric.name }}</a></p>
-           {{ bb.published|date:"d.m.Y H:i:s" }}
-
+            <p>{{ bb.published|date:"d.m.Y H:i:s" }}</p>
         </div>
     {% endfor %}
-
-
+    
+    
     {% bootstrap_pagination page size='sm' pages_to_show='5' %}
-
+    
 
     <div>
         {% if page.has_previous %}
@@ -63,7 +74,7 @@
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
-
+        
             {% for i in page.paginator.page_range %}
                 <li class="page-item
                     {% if i == page.number %}
@@ -72,7 +83,7 @@
                     <a class="page-link" href="?page={{ i }}">{{ i }}</a>
                 </li>
             {% endfor %}
-
+            
             <li class="page-item{% if not page.has_next %} disabled{% endif %}">
             {% if page.has_next %}
                 <a class="page-link" href="?page={{ page.next_page_number }}"

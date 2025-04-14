@@ -1,22 +1,21 @@
-import os
+import os.path
 from datetime import datetime
-from http.client import responses
-from lib2to3.fixes.fix_input import context
 
-from certifi import contents
 from django.conf import settings
-from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
-from django.contrib.auth.middleware import get_user
+from django.contrib import messages
+from django.contrib.auth import get_user
+from django.contrib.auth.decorators import (login_required, user_passes_test,
+                                            permission_required)
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import redirect_to_login
-from django.contrib.messages.context_processors import messages
 from django.core.paginator import Paginator
 from django.db import transaction, DatabaseError
 from django.db.models import Count
 from django.forms import modelformset_factory, inlineformset_factory
-from django.http import (HttpResponse, HttpResponseRedirect, HttpResponseNotFound,
-                         Http404, StreamingHttpResponse, FileResponse, JsonResponse, HttpResponseForbidden)
+from django.http import (HttpResponse, HttpResponseRedirect,
+                         HttpResponseNotFound, Http404, StreamingHttpResponse,
+                         FileResponse, JsonResponse, HttpResponseForbidden)
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.template import loader
 from django.template.loader import render_to_string
@@ -31,15 +30,18 @@ from django.views.generic.base import View, TemplateView
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 from precise_bbcode.bbcode import get_parser
 
-from bboard.forms import BbForm, RubricBaseFormSet, MyForm, SearchForm, ImgForm
+from bboard.forms import BbForm, RubricBaseFormSet, SearchForm, ImgForm
 from bboard.models import Bb, Rubric, Img
 
-from django.contrib.auth import authenticate, login, logout
 
-from django.forms import formset_factory
-
-from samplesite.settings import DATABASES
-
+# Основной (вернуть)
+# def index(request):
+#     bbs = Bb.objects.order_by('-published')
+#     # rubrics = Rubric.objects.all()
+#     rubrics = Rubric.objects.annotate(cnt=Count('bb')).filter(cnt__gt=0)
+#     context = {'bbs': bbs, 'rubrics': rubrics}
+#
+#     return render(request, 'bboard/index.html', context)
 
 
 def index(request):
@@ -47,26 +49,14 @@ def index(request):
     rubrics = Rubric.objects.annotate(cnt=Count('bb')).filter(cnt__gt=0)
 
     # if 'counter' in request.COOKIES:
-    #     cnt = int(request.COOKIES['counter'])+1
+    #     cnt = int(request.COOKIES['counter']) + 1
     # else:
     #     cnt = 1
 
     if 'counter' in request.session:
-        cnt = request.session['counter']
+        cnt = request.session['counter'] + 1
     else:
         cnt = 1
-
-
-
-    # user = User.objects.get(pk=request.user.pk)
-    #
-    current_user = get_user(request)
-
-    if current_user.is_authenticated:
-        pass
-    else:
-        return redirect_to_login(reverse('bboard:rubrics'))
-
 
     paginator = Paginator(bbs, 2)
 
@@ -77,18 +67,15 @@ def index(request):
 
     page = paginator.get_page(page_num)
 
-   # context = {'bbs': page.object_list, 'rubrics': rubrics, 'page': page}
-    context = {'bbs': page.object_list, 'page': page, "cnt":cnt}
-   #
+    context = {'bbs': page.object_list, 'rubrics': rubrics, 'page': page,
+               'cnt': cnt}
+
     response = render(request, 'bboard/index.html', context)
-   #
-   #  response.set_cookie('counter', cnt)
+    # response.delete_cookie('counter')
+    # response.set_cookie('counter', cnt)
     request.session['counter'] = cnt
 
     return response
-
-
-    return render(request, 'bboard/index.html', context)
 
 
 class BbIndexView(ArchiveIndexView):
@@ -120,7 +107,6 @@ def by_rubric(request, rubric_id):
     # bbs = current_rubric.entries.all()
 
     context = {'bbs': bbs, 'rubrics': rubrics, 'current_rubric': current_rubric}
-
 
     return render(request, 'bboard/by_rubric.html', context)
 
@@ -162,59 +148,24 @@ class BbRubricBbsView(ListView):
 
 
 # Основной (вернуть)
-class BbCreateView(LoginRequiredMixin, UserPassesTestMixin,CreateView, PermissionRequiredMixin):
+class BbCreateView(LoginRequiredMixin, UserPassesTestMixin,
+                   PermissionRequiredMixin, CreateView):
     template_name = 'bboard/bb_create.html'
     model = Bb
     form_class = BbForm
     success_url = reverse_lazy('bboard:index')
-
-    permission_required('bboard.add_bb', 'bboard.change_bb',
-                        'bboard.delete_bb')
+    success_message = 'Объявление о продаже товара "%(title)s создано."'
+    permission_required = ('bboard.add_bb', 'bboard.change_bb',
+                           'bboard.delete_bb')
 
     def test_func(self):
         return self.request.user.is_staff
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['rubrics'] = Rubric.objects.annotate(
                                             cnt=Count('bb')).filter(cnt__gt=0)
         return context
-
-
-
-def edit(request, pk):
-    bb = Bb.objects.get(pk=pk)
-    if request.method == 'POST':
-        bbf = BbForm(request.POST, instance=bb)
-        if bbf.is_valid():
-            if bbf.has_changed():
-                bb = bbf.save(commit=False)
-                if not bb.kind:
-                    bb.kind = "s"
-            bb.save()
-
-            messages.add_message(request, messages.SUCCESS,
-                                 'Объявление исправленно', extra_tags='safe')
-
-            messages.succes(request, messages.SUCCESS,
-                                 'Объявление исправленно')
-
-
-
-            return redirect('bboard:by_rubric',
-                            rubric_id=bbf.cleaned_data['rubric'].pk)
-        else:
-            context = {'form': bbf}
-            return render(request, 'bboard/bb_create.html', context)
-    else:
-        bbf = BbForm(instance=bb)
-
-        context = {'form': bbf}
-        return render(request, 'bboard/bb_create.html', context)
-
-
-
 
 
 def add_and_save(request):
@@ -230,10 +181,39 @@ def add_and_save(request):
             context = {'form': bbf}
             return render(request, 'bboard/bb_create.html', context)
     else:
-        bbf = BbForm(initial={'price':1000.0})
+        bbf = BbForm(initial={'price': 1000.0})
 
         context = {'form': bbf}
         return render(request, 'bboard/bb_create.html', context)
+
+
+def edit(request, pk):
+    bb = Bb.objects.get(pk=pk)
+    if request.method == 'POST':
+        bbf = BbForm(request.POST, instance=bb)
+        if bbf.is_valid():
+            if bbf.has_changed():
+                bb = bbf.save(commit=False)
+                if not bb.kind:
+                    bb.kind = 's'
+                bb.save()
+
+            messages.add_message(
+                request, messages.SUCCESS,
+                'Объявление исправлено', extra_tags='first second')
+
+            messages.success(request, 'Объявление исправлено')
+
+            return redirect('bboard:by_rubric',
+                            rubric_id=bbf.cleaned_data['rubric'].pk)
+        else:
+            context = {'form': bbf}
+            return render(request, 'bboard/bb_create.html', context)
+    else:
+        bbf = BbForm(instance=bb)
+
+    context = {'form': bbf}
+    return render(request, 'bboard/bb_create.html', context)
 
 
 class BbEditView(UpdateView):
@@ -272,6 +252,15 @@ class BbDetailView(DetailView):
         return context
 
 
+def detail(request, pk):
+    parser = get_parser()
+    bb = Bb.objects.get(pk=pk)
+    parsed_content = parser.render(bb.content)
+    context = {'bb': bb, 'parsed_content': parsed_content}
+
+    return render(request, 'bboard/bb_detail.html', context=context)
+
+
 class BbDeleteView(DeleteView):
     model = Bb
     success_url = '/{rubric_id}/'
@@ -284,33 +273,17 @@ class BbDeleteView(DeleteView):
         return context
 
 
-
-def detail(request, pk):
-    parser = get_parser()
-    bb = Bb.objects.get(pk=pk)
-    parsed_content = parser.render(bb.content)
-    context = {'bb': bb, 'parsed_content': parsed_content}
-
-    return render(request, 'bboard/bb_detail.html', context=context)
-
-
 # @login_required
-# @login_required(login_url="/login/")
+# @login_required(login_url='/login/')
 # @user_passes_test(lambda user: user.is_staff)
-
 # @permission_required('bboard.view_rubric')
-
-# @permission_required('bboard.view_rubric',)
-@permission_required('bboard.add_rubric',
-                     'bboard.change_rubric',
-                     'bboard.delete_rubric')
+@permission_required(('bboard.add_rubric',
+                      'bboard.change_rubric',
+                      'bboard.delete_rubric',))
 def rubrics(request):
-    # RubricFormSet = modelformset_factory(Rubric, fields=('name',))
     RubricFormSet = modelformset_factory(Rubric, fields=('name',),
-                                         can_order=True,
-                                        can_delete=True,
+                                         can_order=True, can_delete=True,
                                          formset=RubricBaseFormSet)
-
     if request.method == 'POST':
         formset = RubricFormSet(request.POST)
         if formset.is_valid():
@@ -325,14 +298,13 @@ def rubrics(request):
                         if form['ORDER'].data:
                             rubric.order = form['ORDER'].data
                         rubric.save()
-            return redirect('bboard:index',)
 
+            return redirect('bboard:index')
     else:
         formset = RubricFormSet()
 
     context = {'formset': formset}
-
-    return render(request, 'bboard/rubric.html', context)
+    return render(request, 'bboard/rubrics.html', context)
 
 
 def bbs(request, rubric_id):
@@ -342,34 +314,15 @@ def bbs(request, rubric_id):
         formset = BbsFormSet(request.POST, instance=rubric)
         if formset.is_valid():
             formset.save()
-            return redirect('bboard:index', )
-
+            return redirect('bboard:index')
     else:
         formset = BbsFormSet(instance=rubric)
-
-    context = {'formset': formset}
+    context = {'formset': formset, 'current_rubric': rubric}
     return render(request, 'bboard/bbs.html', context)
 
 
-
-def MyFormHw(request):
-    if request.method == 'POST':
-        form = MyForm(request.POST)  # Используем правильное имя формы
-        if form.is_valid():
-            name = form.cleaned_data["name"]
-            email = form.cleaned_data["email"]
-            age = form.cleaned_data["age"]
-            return render(request, "bboard/index.html", {"name": name, "email": email, "age": age})
-        else:
-            return render(request, "bboard/form.html", {"form": form, "error": "Ошибка валидации."})
-    else:
-        form = MyForm()  # Создаем пустую форму
-
-    return render(request, "bboard/form.html", {"form": form})
-
-
-#@transaction.non_atomic_requests # по умолчанию, каждая операция в отдельонм транзакций
-@transaction.atomic
+#@transaction.non_atomic_requests  # по умолчанию, каждая операция в отдельной транзакции
+@transaction.atomic  # атомарные запросы, все операции в одной транезакции
 def my_view(request):
     formset = RubricBaseFormSet(instance=Rubric)
     if formset.is_valid():
@@ -378,7 +331,7 @@ def my_view(request):
                 if form.cleaned_data:
                     try:
                         with transaction.atomic():
-                           pass
+                            pass
                     except DatabaseError:
                         pass
 
@@ -391,39 +344,28 @@ def my_view(request):
     bbs = Bb.objects.select_for_updates(skip_licked=True,
                                         of=('self', 'rubric')).filter(price__lt=100)
 
-    #ручное управление
-    try:
-        form = BbForm(request.POST)
-        if form.is_valid():
+    # ручное управление
+    form = BbForm(request.POST)
+    if form.is_valid():
+        try:
             form.save()
-            raise DatabaseError("Искусственная ошибка")
             transaction.commit()
-    except DatabaseError:
-        transaction.rollback()
-
-    return JsonResponse({'status': 'ok'})
-
+        except:
+            transaction.rollback()
 
 
 def search(request):
     context = {}
-
-    # parser = get_parser()
-
     if request.method == 'POST':
         sf = SearchForm(request.POST)
         if sf.is_valid():
             keyword = sf.cleaned_data['keyword']
             rubric_id = sf.cleaned_data['rubric'].pk
             bbs = Bb.objects.filter(
-                #title__icontains=keyword,
+                # title__icontains=keyword,
                 title__iregex=keyword,
                 rubric=rubric_id)
-
-            # parsed_content = parser.render(bbs.content)
-
             context.update(bbs=bbs)
-
     else:
         sf = SearchForm()
 
@@ -432,23 +374,21 @@ def search(request):
     return render(request, 'bboard/search.html', context)
 
 
-
 # def add_img(request):
 #     if request.method == 'POST':
 #         form = ImgForm(request.POST, request.FILES)
 #         if form.is_valid():
 #             form.save()
 #             return redirect('bboard:index')
-#
 #     else:
 #         form = ImgForm()
 #
 #     context = {'form': form}
 #     return render(request, 'bboard/add_img.html', context)
 
-
-#Низкоуровневый - много писать
+# Низкоуровневый
 FILES_ROOT = settings.BASE_DIR / 'files'
+
 def add_img(request):
     if request.method == 'POST':
         form = ImgForm(request.POST, request.FILES)
@@ -456,12 +396,10 @@ def add_img(request):
             uploaded_file = request.FILES['image']
             fn = f'{datetime.now().timestamp()}{os.path.splitext(uploaded_file.name)[1]}'
             fn = os.path.join(FILES_ROOT, fn)
-            with open(fn, 'wb+') as destination:
+            with open(fn, 'wb+') as destinaton:
                 for chunk in uploaded_file.chunks():
-                    destination.write(chunk)
-
-            return redirect('bboard:index')
-
+                    destinaton.write(chunk)
+            return redirect('bboard:img_index')
     else:
         form = ImgForm()
 
@@ -469,12 +407,10 @@ def add_img(request):
     return render(request, 'bboard/add_img.html', context)
 
 
-
 def img_index(request):
     imgs = []
     for entry in os.scandir(FILES_ROOT):
         imgs.append(os.path.basename(entry))
-
     context = {'imgs': imgs}
     return render(request, 'bboard/img_index.html', context)
 
@@ -484,12 +420,11 @@ def img_thumbs(request):
     context = {'imgs': imgs}
     return render(request, 'bboard/img_thumbs.html', context)
 
+
 def get_img(request, filename):
     fn = os.path.join(FILES_ROOT, filename)
-    return FileResponse(open(fn, 'rb'), content_type='application/octet-stream')
-
-
-
+    return FileResponse(open(fn, 'rb'),
+                        content_type='application/octet-stream')
 
 
 def delete_img(request, pk):
