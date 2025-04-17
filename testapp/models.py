@@ -1,7 +1,7 @@
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 
 
 class AdvUser(models.Model):
@@ -93,5 +93,31 @@ class PrivateMessage(Message):
 #                       verbose_name='Tags')
 
 
+#variant 1
+# class Profile(models.Model):
+#     phone = models.CharField(max_length=20)
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
+#variant 2
+# class AdvUser(AbstractUser):
+#     phone = models.CharField(max_length=20)
 
+#variant 3
+# class AdvUser(User):
+#     phone = models.CharField(max_length=20)
+#     class Meta:
+#         proxy = True
+
+# class Comment(models.Model):
+#     ...
+#     class Meta:
+#         permissions = (
+#             ('hide_comments', 'Can hide comments'),
+#         )
+#         default_permissions = ('change', 'delete')
+#
+#
+# def hide_comment(request):
+#     if request.user.has_perm('bboard.hide_comments'):
+#         #Пользователь может скрывать коменты
+#         pass

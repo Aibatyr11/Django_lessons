@@ -13,7 +13,8 @@ from email.policy import default
 from pathlib import Path
 
 from django.conf.global_settings import STATICFILES_DIRS, ABSOLUTE_URL_OVERRIDES, FILE_UPLOAD_MAX_MEMORY_SIZE, \
-    FILE_UPLOAD_TEMP_DIR, FILE_UPLOAD_PERMISSIONS, FILE_UPLOAD_DIRECTORY_PERMISSIONS, SESSION_ENGINE
+    FILE_UPLOAD_TEMP_DIR, FILE_UPLOAD_PERMISSIONS, FILE_UPLOAD_DIRECTORY_PERMISSIONS, SESSION_ENGINE, AUTH_USER_MODEL, \
+    EMAIL_BACKEND, EMAIL_HOST, EMAIL_USE_SSL, EMAIL_SSL_KEYFILE
 from django_bootstrap5.core import BOOTSTRAP5_DEFAULTS
 from precise_bbcode.conf.settings import BBCODE_DISABLE_BUILTIN_TAGS, BBCODE_ALLOW_CUSTOM_TAGS, BBCODE_ALLOW_SMILIES, \
     SMILIES_UPLOAD_TO
@@ -65,6 +66,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
+#AUTH_USER_MODEL = 'templates.models.AdvUser'
+
 
 ROOT_URLCONF = 'samplesite.urls'
 
@@ -290,3 +295,34 @@ THUMBNAIL_TRANSPARENCY_EXTENSION = "png"
 # SESSION_ENGINE = "django.contrib.sessions.backends.cashed_db"
 
 #SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+
+
+# E-MAIL
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'#яндекс
+#EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+#EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'#best - заглушка
+
+#DEFAULT_FROM_EMAIL = 'webmaster@localhost'
+
+# EMAIL_HOST = 'localhost'
+# EMAIL_PORT = 25
+# EMAIL_HOST_USER = ''
+# EMAIL_HOST_PASSWORD = '' #<- django enveron
+# EMAIL_USE_SSL = True
+# EMAIL_USE_TLS = True
+# EMAIL_SSL_CERTFILE = None
+# EMAIL_SSL_KEYFILE = None
+# EMAIL_TIMEOUT = None
+
+#EMAIL_FILE_PATH = ''
+
+# ADMINS = [
+#     ('Admin1', "admin1@supersite.kz"),
+#     ('Admin2', "admin2@supersite.kz"),
+#     ('Admin3', "admin3@supersite.kz"),
+#
+# ]
