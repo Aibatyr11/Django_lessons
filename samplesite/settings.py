@@ -51,15 +51,22 @@ INSTALLED_APPS = [
     'django_bootstrap5',
     'django_cleanup',
     'easy_thumbnails',
+    'rest_framework',
+    'corsheaders',
+
 
     'bboard',  # 'bboard.apps.BboardConfig',
     'testapp',
+    'api'
     # 'todolist',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -326,3 +333,20 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 #     ('Admin3', "admin3@supersite.kz"),
 #
 # ]
+
+
+
+######
+#CORSHEADERS
+###
+CORS_ALLOWED_ALL_ORIGINS = True
+
+
+CORS_URLS_REGEX = r'^/api/.*$'
+CORS_ALLOWED_ORIGINS = ['http://127.0.0.1:5500']
+
+# CORS_ALLOWED_ORIGINS_REGEX = [
+#     r'^https?://(www|admin)\.bboard\.kz$',
+# ]
+
+#CORS_ALLOWED_METHODS = ['GET', 'POST']
