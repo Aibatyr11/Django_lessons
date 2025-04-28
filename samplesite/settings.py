@@ -336,17 +336,22 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 
-######
-#CORSHEADERS
-###
+
+###################
+### CORSHEADERS ###
+###################
 CORS_ALLOWED_ALL_ORIGINS = True
-
-
 CORS_URLS_REGEX = r'^/api/.*$'
 CORS_ALLOWED_ORIGINS = ['http://127.0.0.1:5500']
 
+
+# CORS_ALLOWED_ORIGINS = [
+#     'http://www.bboard.kz',
+#     'https://www.bboard.kz',
+#     'https://admin.bboard.kz',
+# ]
 # CORS_ALLOWED_ORIGINS_REGEX = [
 #     r'^https?://(www|admin)\.bboard\.kz$',
+#     r'^http://(www\.)?bb\.net$',
 # ]
-
-#CORS_ALLOWED_METHODS = ['GET', 'POST']
+# CORS_ALLOWED_METHODS = ['GET', 'POST']
