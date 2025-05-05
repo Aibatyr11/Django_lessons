@@ -1,5 +1,15 @@
 const domain = 'http://localhost:8000/api/';
 
+const username = 'admin'
+const password = '123'
+const credentials = window.btoa(`${username}:${password}`);
+
+
+// const result = await fetch(`${domain}rubrics/`, {
+//     headers: { 'Authorization' : `Basic ${credentials}`}
+// })
+
+
 // const list = document.getElementById('list');
 const list = document.querySelector('#list');
 const itemId = document.querySelector('#id');
@@ -7,7 +17,9 @@ const itemName = document.querySelector('#name');
 
 async function loadItem(evt) {
     evt.preventDefault();
-    const result = await fetch(evt.target.href);
+    const result = await fetch(evt.target.href, {
+        headers: { 'Authorization' : `Basic ${credentials}`}
+    });
     if(result.ok){
         const data = await result.json();
         itemId.value = data.id;
@@ -18,11 +30,12 @@ async function loadItem(evt) {
     
 }
 
-
-
 async function deleteItem(evt) {
     evt.preventDefault();
-    const result = await fetch(evt.target.href, {method: 'DELETE'});
+    const result = await fetch(evt.target.href, {
+        method: 'DELETE',
+        headers: { 'Authorization' : `Basic ${credentials}`}
+    });
     if(result.ok){
         loadList()
     }else {
@@ -32,7 +45,9 @@ async function deleteItem(evt) {
 }
 
 async function loadList() {
-    const result = await fetch(`${domain}rubrics`);
+    const result = await fetch(`${domain}rubrics/`, {
+             headers: { 'Authorization' : `Basic ${credentials}`}
+        })
     if (result.ok) {
         const data = await result.json();
         let s = '', d;
@@ -84,7 +99,10 @@ itemName.form.addEventListener('submit', async (evt) => {
     const result = await fetch(url, {
         method: method,
         body: JSON.stringify({name: itemName.value}),
-        headers: {'Content-Type': 'application/json'}
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization' : `Basic ${credentials}`
+        }
     })
 
     if(result.ok){
