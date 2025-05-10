@@ -27,7 +27,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('todo/', include('todolist.urls', namespace='todo')),
     path('testapp/', include('testapp.urls', namespace='testapp')),
+
     path('api/', include('api.urls', namespace='api')),
+
     path('', include('bboard.urls', namespace='bboard')),
 
     path('accounts/login/', LoginView.as_view(), name='login'),
@@ -47,6 +49,8 @@ urlpatterns = [
          name='password_reset_confirm'),
     path('accounts/reset/done/', PasswordResetCompleteView.as_view(),
          name='password_reset_complete'),
+
+
 ]
 
 urlpatterns += [
