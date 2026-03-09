@@ -1,1 +1,1 @@
-Django_lessons
+Django_lessons_all
